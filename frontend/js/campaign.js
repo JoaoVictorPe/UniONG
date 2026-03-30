@@ -89,3 +89,12 @@ async function finishSimulation() {
         alert("Erro ao simular doação.");
     }
 }
+
+function copyPix() {
+    const pixText = document.getElementById('pix-key').innerText;
+    navigator.clipboard.writeText(pixText).then(() => {
+        alert('✅ Chave PIX copiada com sucesso para a área de transferência!');
+    }).catch(err => {
+        alert('❌ Erro ao copiar a chave. Por favor, copie manualmente segurando sobre o texto.');
+    });
+}

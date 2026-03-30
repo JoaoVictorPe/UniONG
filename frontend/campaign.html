@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes da Campanha - UniONG</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="navbar">
+        <div class="container">
+            <a href="/" class="logo">Uni<span>ONG</span></a>
+            <nav>
+                <a href="/">Home</a>
+                <a href="/#campaigns">Campanhas</a>
+            </nav>
+        </div>
+    </header>
+
+    <main id="campaign-content">
+        <!-- Loader ou conteúdo vai aqui -->
+        <div class="container text-center" style="padding: 100px 0;">
+            <h2>Carregando detalhes da campanha...</h2>
+        </div>
+    </main>
+
+    <!-- Donation Warning Modal -->
+    <div class="modal-overlay" id="donation-modal">
+        <div class="modal-content">
+            <p class="modal-warning">⚠️ AVISO IMPORTANTE ⚠️</p>
+            <p class="modal-text">
+                Este é um projeto de portfólio criado para fins de demonstração. 
+                <br><strong>Os valores enviados através deste QR Code/Pix NÃO são destinados a ONGs reais.</strong>
+                <br><br>
+                Eles serão enviados diretamente ao desenvolvedor do projeto. Por favor, confirme que você está ciente desta condição antes de prosseguir.
+            </p>
+            
+            <div id="modal-step-1" class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeModal()">Cancelar</button>
+                <button class="btn btn-primary" onclick="confirmDonation()">Estou Ciente - Prosseguir</button>
+            </div>
+
+            <div id="modal-step-2" class="qr-code-box">
+                <h4>Escaneie o QR Code ou Copie o Código</h4>
+                <!-- Mock QR Code image -->
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=00020126580014BR.GOV.BCB.PIX0136c086f6d1-0314-4d49-bbed-ff7dd361883a5204000053039865802BR5925Joao Victor Pereira de Je6009SAO PAULO62140510DLlWDDLe2Q6304CA65" alt="QR Code Pix" />
+                <p style="color: #000; font-weight: bold; word-break: break-all; font-size: 0.8rem; margin: 10px 0;">PIX Copia e Cola: <br>00020126580014BR.GOV.BCB.PIX0136c086f6d1-0314-4d49-bbed-ff7dd361883a5204000053039865802BR5925Joao Victor Pereira de Je6009SAO PAULO62140510DLlWDDLe2Q6304CA65</p>
+                <div style="margin-top: 15px;">
+                    <label style="color: #000;">Valor Simulado: R$ <input type="number" id="mock-amount" value="50" style="width: 80px; padding: 5px; border-radius: 4px; border: 1px solid #ccc;" /></label>
+                </div>
+                <button class="btn btn-primary" style="margin-top: 15px; width: 100%;" onclick="finishSimulation()">Concluir Simulação</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container text-center">
+            <p>Projeto de Portfólio 2026 - UniONG - As doações aqui são fictícias.</p>
+        </div>
+    </footer>
+
+    <script src="/js/api.js"></script>
+    <script src="/js/campaign.js"></script>
+</body>
+</html>

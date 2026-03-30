@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UniONG - Conectando você a causas que importam</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="navbar">
+        <div class="container">
+            <h1 class="logo">Uni<span>ONG</span></h1>
+            <nav>
+                <a href="/">Home</a>
+                <a href="/#campaigns">Campanhas</a>
+                <a href="/#map">Mapa de ONGs</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h2>Faça a diferença hoje.</h2>
+                <p>O apoio financeiro transforma vidas. Encontre causas sociais reais e contribua (nesta simulação) para um mundo melhor.</p>
+                <a href="#campaigns" class="btn btn-primary">Ver Campanhas</a>
+            </div>
+        </section>
+
+        <section id="campaigns" class="campaigns-section">
+            <div class="container">
+                <h3 class="section-title">Campanhas em Destaque</h3>
+                <div class="grid" id="campaign-grid">
+                    <!-- Cards via JS -->
+                </div>
+            </div>
+        </section>
+
+        <section id="map" class="map-section">
+            <div class="container">
+                <h3 class="section-title">Encontre ONGs próximas a você</h3>
+                <div class="map-placeholder">
+                    <p>🗺️ Mapa Interativo Simulado</p>
+                    <span>(Integração visual de geolocalização simulada)</span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container text-center">
+            <p>Projeto de Portfólio 2026 - UniONG - As doações aqui são fictícias.</p>
+        </div>
+    </footer>
+
+    <script src="/js/api.js"></script>
+    <script src="/js/main.js"></script>
+</body>
+</html>

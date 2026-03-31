@@ -65,13 +65,13 @@ app.get('/api/ongs/nearby', async (req, res) => {
                 return ong;
             });
             
-            return res.json(nearbyOngs);
+            return res.json({ source: 'real', data: nearbyOngs });
         } else {
-            return res.json(ongs.slice(0, 6)); // Retorna as padrão se não achar
+            return res.json({ source: 'mock', data: ongs.slice(0, 6) }); // Retorna as padrão se não achar
         }
     } catch (error) {
         console.error('Erro na Overpass API:', error);
-        return res.json(ongs.slice(0, 6)); // Fallback seguro
+        return res.json({ source: 'mock', data: ongs.slice(0, 6) }); // Fallback seguro
     }
 });
 

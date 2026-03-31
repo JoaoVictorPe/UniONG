@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     grid.innerHTML = '<p class="text-center" style="grid-column: 1 / -1;">🌐 Solicitando sua localização para buscar ONGs reais próximas...</p>';
 
     let ongs = [];
+    let isMock = true;
 
     if ("geolocation" in navigator) {
         try {
@@ -12,7 +13,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                 navigator.geolocation.getCurrentPosition(resolve, reject, { timeout: 10000 });
             });
             grid.innerHTML = '<p class="text-center" style="grid-column: 1 / -1;">📍 Localização obtida! Buscando ONGs na sua região...</p>';
-            ongs = await fetchNearbyOngs(position.coords.latitude, position.coords.longitude);
+            
+            const nearbyResult = await fetchNearbyOngs(position.coords.latitude, position.coords.longitude);
+            ongs = nearbyResult.data || [];
+            if (nearbyResult.source === 'real') {
+                isMock = false;
+            }
         } catch (error) {
             console.warn("Geolocalização negada ou falhou. Carregando ONGs padrão.");
             ongs = await fetchOngs();
@@ -27,6 +33,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     grid.innerHTML = '';
+    
+    if (isMock) {
+        const warningParams = document.createElement('div');
+        warningParams.className = 'text-center';
+        warningParams.style.gridColumn = '1 / -1';
+        warningParams.style.marginBottom = '20px';
+        warningParams.style.color = 'var(--text-muted)';
+        warningParams.innerHTML = '<em>🚫 Nenhuma Instituição de Caridade real encontrada próxima de você. Exibindo campanhas fictícias de portfólio.</em>';
+        grid.appendChild(warningParams);
+    }
     
     ongs.forEach(ong => {
         const progressPercentage = Math.min((ong.raised / ong.goal) * 100, 100).toFixed(1);

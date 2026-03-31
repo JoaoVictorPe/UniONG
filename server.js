@@ -54,7 +54,17 @@ app.get('/api/ongs/nearby', async (req, res) => {
                     description: `Esta é uma instituição real localizada próxima a você. A instituição "${name}" atua na comunidade oferecendo suporte e serviços sociais. Detalhes específicos podem variar, mas seu apoio transforma vidas. (Dados fornecidos publicamente pelo OpenStreetMap).`,
                     goal: Math.floor(Math.random() * 20000) + 5000,
                     raised: Math.floor(Math.random() * 5000),
-                    location: `Lat: ${el.lat?.toFixed(3)}, Lon: ${el.lon?.toFixed(3)}`,
+                    location: (function() {
+                        let addr = '';
+                        if (el.tags) {
+                            const street = el.tags['addr:street'];
+                            const number = el.tags['addr:housenumber'];
+                            const city = el.tags['addr:city'] || el.tags['addr:suburb'];
+                            if (street) addr = `${street}${number ? ', ' + number : ''}${city ? ' - ' + city : ''}`;
+                            else if (city) addr = city;
+                        }
+                        return addr ? addr : `Coordenadas: ${el.lat?.toFixed(4)}, ${el.lon?.toFixed(4)}`;
+                    })(),
                     image: defaultImages[index % defaultImages.length]
                 };
                 

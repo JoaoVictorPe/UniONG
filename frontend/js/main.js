@@ -36,11 +36,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     if (isMock) {
         const warningParams = document.createElement('div');
-        warningParams.className = 'text-center';
         warningParams.style.gridColumn = '1 / -1';
-        warningParams.style.marginBottom = '20px';
-        warningParams.style.color = 'var(--text-muted)';
-        warningParams.innerHTML = '<em>🚫 Nenhuma Instituição de Caridade real encontrada próxima de você. Exibindo campanhas fictícias de portfólio.</em>';
+        warningParams.style.marginBottom = '30px';
+        warningParams.style.padding = '15px';
+        warningParams.style.backgroundColor = 'rgba(255, 68, 68, 0.1)';
+        warningParams.style.border = '1px solid #ff4444';
+        warningParams.style.borderRadius = '8px';
+        warningParams.style.textAlign = 'center';
+        warningParams.innerHTML = '<strong style="color: #ff4444; font-size: 1.1rem;">⚠️ Aviso de Portfólio</strong><br><span style="color: var(--text-main); font-size: 0.95rem;">Não foi possível carregar ONGs reais da sua região (GPS negado ou sem dados no raio de busca).<br>Exibindo <strong>campanhas fictícias</strong> abaixo para demonstração do sistema.</span>';
         grid.appendChild(warningParams);
     }
     

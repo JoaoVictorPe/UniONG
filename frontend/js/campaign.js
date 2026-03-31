@@ -11,7 +11,19 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     currentOngId = id;
-    const ong = await fetchOngById(id);
+    
+    // Tentativa de carregamento instantâneo do cache
+    let ong = null;
+    const cachedData = sessionStorage.getItem('uniOngs');
+    if (cachedData) {
+        const ongsList = JSON.parse(cachedData).data;
+        ong = ongsList.find(o => o.id == id);
+    }
+
+    // Se não estiver no cache (ex: acesso direto ao link), busca na API
+    if (!ong) {
+        ong = await fetchOngById(id);
+    }
 
     if (!ong) {
         container.innerHTML = '<div class="container text-center" style="padding: 100px 0;"><h2>Campanha não encontrada.</h2><a href="/" class="btn btn-primary">Voltar para Home</a></div>';

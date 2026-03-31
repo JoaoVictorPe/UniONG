@@ -1,11 +1,13 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
+const compression = require('compression');
 const { ongs } = require('./backend/data');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.use(compression());
 app.use(cors());
 app.use(express.json());
 
@@ -15,10 +17,22 @@ app.get('/api/ongs', (req, res) => {
     res.json(ongs);
 });
 
+const nearbyCache = new Map();
+const CACHE_TTL = 10 * 60 * 1000; // 10 minutes
+
 app.get('/api/ongs/nearby', async (req, res) => {
     const { lat, lon } = req.query;
     if (!lat || !lon) {
         return res.status(400).json({ error: 'Latitude e longitude são obrigatórios' });
+    }
+
+    // Cache key baseada em 2 casas decimais (~1.1km de resolução) para reutilizar em chamadas próximas
+    const cacheKey = `${parseFloat(lat).toFixed(2)},${parseFloat(lon).toFixed(2)}`;
+    if (nearbyCache.has(cacheKey)) {
+        const cachedEntry = nearbyCache.get(cacheKey);
+        if (Date.now() - cachedEntry.timestamp < CACHE_TTL) {
+            return res.json({ source: 'real (cached)', data: cachedEntry.data });
+        }
     }
 
     try {
@@ -75,9 +89,12 @@ app.get('/api/ongs/nearby', async (req, res) => {
                 return ong;
             });
             
+            nearbyCache.set(cacheKey, { timestamp: Date.now(), data: nearbyOngs });
             return res.json({ source: 'real', data: nearbyOngs });
         } else {
-            return res.json({ source: 'mock', data: ongs.slice(0, 6) }); // Retorna as padrão se não achar
+            const fallbackData = ongs.slice(0, 6);
+            nearbyCache.set(cacheKey, { timestamp: Date.now(), data: fallbackData });
+            return res.json({ source: 'mock', data: fallbackData }); // Retorna as padrão se não achar
         }
     } catch (error) {
         console.error('Erro na Overpass API:', error);

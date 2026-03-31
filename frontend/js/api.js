@@ -56,3 +56,12 @@ async function simulateDonationApi(id, amount) {
         return { success: false };
     }
 }
+
+async function fetchOngById(id) {
+    try {
+        return await fetchWithRetry(`${API_URL}/ongs/${id}`);
+    } catch (error) {
+        console.error('Erro ao buscar ONG por ID:', error);
+        return null;
+    }
+}

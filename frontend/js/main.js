@@ -2,9 +2,24 @@ document.addEventListener('DOMContentLoaded', async () => {
     const grid = document.getElementById('campaign-grid');
     if (!grid) return; // Not on home page
 
-    grid.innerHTML = '<p class="text-center" style="grid-column: 1 / -1;">Carregando campanhas...</p>';
+    grid.innerHTML = '<p class="text-center" style="grid-column: 1 / -1;">🌐 Solicitando sua localização para buscar ONGs reais próximas...</p>';
 
-    const ongs = await fetchOngs();
+    let ongs = [];
+
+    if ("geolocation" in navigator) {
+        try {
+            const position = await new Promise((resolve, reject) => {
+                navigator.geolocation.getCurrentPosition(resolve, reject, { timeout: 10000 });
+            });
+            grid.innerHTML = '<p class="text-center" style="grid-column: 1 / -1;">📍 Localização obtida! Buscando ONGs na sua região...</p>';
+            ongs = await fetchNearbyOngs(position.coords.latitude, position.coords.longitude);
+        } catch (error) {
+            console.warn("Geolocalização negada ou falhou. Carregando ONGs padrão.");
+            ongs = await fetchOngs();
+        }
+    } else {
+        ongs = await fetchOngs();
+    }
 
     if (ongs.length === 0) {
         grid.innerHTML = '<p class="text-center" style="grid-column: 1 / -1;">Nenhuma campanha encontrada no momento.</p>';

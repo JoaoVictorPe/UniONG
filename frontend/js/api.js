@@ -11,6 +11,17 @@ async function fetchOngs() {
     }
 }
 
+async function fetchNearbyOngs(lat, lng) {
+    try {
+        const response = await fetch(`${API_URL}/ongs/nearby?lat=${lat}&lon=${lng}`);
+        if (!response.ok) throw new Error('Falha ao buscar ONGs próximas');
+        return await response.json();
+    } catch (error) {
+        console.error('Erro:', error);
+        return [];
+    }
+}
+
 async function fetchOngById(id) {
     try {
         const response = await fetch(`${API_URL}/ongs/${id}`);

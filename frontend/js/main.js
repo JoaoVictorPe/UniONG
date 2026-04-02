@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                         </div>
                     </div>
                     <div class="card-action">
-                        <a href="/campaign.html?id=${ong.id}" class="btn btn-primary">Apoiar Causa</a>
+                        <a href="./campaign.html?id=${ong.id}" class="btn btn-primary">Apoiar Causa</a>
                     </div>
                 </div>
             `;

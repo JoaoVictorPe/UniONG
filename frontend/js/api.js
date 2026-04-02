@@ -1,4 +1,7 @@
-const API_URL = '/api';
+// Detecta se está rodando no GitHub Pages ou localmente no Render/Localhost
+const API_URL = window.location.hostname.includes('github.io') 
+    ? 'https://uniong.onrender.com/api' 
+    : '/api';
 
 function showOfflineOverlay(show) {
     const overlay = document.getElementById('offline-overlay');
